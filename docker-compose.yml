@@ -2,8 +2,6 @@ services:
   lynx_ws_proxy:
     image: ghcr.io/mxc42/lynx_to_websocket_proxy:main
     restart: unless-stopped
-    env_file:
-      - .env
     ports:
       - $LYNX_BODY_PORT:$LYNX_BODY_PORT/udp
       - $LYNX_CLOCK_PORT:$LYNX_CLOCK_PORT/udp
