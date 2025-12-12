@@ -1,0 +1,15 @@
+services:
+  lynx_ws_proxy:
+    container_name: primary_lynx_ws_proxy
+    image: ghcr.io/mxc42/lynx_to_websocket_proxy:main
+    restart: unless-stopped
+    ports:
+      - $LYNX_BODY_PORT:$LYNX_BODY_PORT/udp
+      - $LYNX_CLOCK_PORT:$LYNX_CLOCK_PORT/udp
+      - $WS_BODY_PORT:$WS_BODY_PORT/tcp
+      - $WS_CLOCK_PORT:$WS_CLOCK_PORT/tcp
+    environment:
+      - LYNX_BODY_PORT=$LYNX_BODY_PORT
+      - LYNX_CLOCK_PORT=$LYNX_CLOCK_PORT
+      - WS_BODY_PORT=$WS_BODY_PORT
+      - WS_CLOCK_PORT=$WS_CLOCK_PORT
