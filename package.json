@@ -1,0 +1,22 @@
+{
+  "name": "track_scoreboard_proxy",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "ts-node-dev --respawn src/index.ts",
+    "start": "node dist/index.js",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "Morgan Hunter",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/ws": "^8.18.1",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@types/node": "^25.0.1",
+    "ts-node-dev": "^2.0.0",
+    "ws": "^8.18.3"
+  }
+}

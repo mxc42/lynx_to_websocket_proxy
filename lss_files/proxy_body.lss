@@ -1,0 +1,36 @@
+; For use with a `track_scoreboard_proxy` server.
+; The server proxies Lynx UDP --> websocket JSON
+
+;;ResultsHeader
+\13\02\b2\b2%s,
+\13\03%s,
+\13\06%s,
+\13\0a%s;
+
+;;StartListHeader
+\13\02\b2\b2%s,
+\13\03%s,
+\13\06%s,
+\13\0a%s;
+
+;;StartListTrailer
+\13\00\c4\c4
+
+;;StartList
+\14\01%s,
+\14\02%s,
+\14\03%s,
+\14\04%s,
+\14\05%s,
+\14\06%s;
+
+;;Results
+\14\01%s,
+\14\02%s,
+\14\03%s,
+\14\04%s,
+\14\05%s,
+\14\06%s;
+
+;;ResultsTrailer
+\13\00\c4\c4

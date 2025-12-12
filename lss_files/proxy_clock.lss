@@ -1,0 +1,17 @@
+; For use with a `track_scoreboard_proxy` server.
+; The server proxies Lynx UDP --> websocket JSON
+
+;;TimeRunning
+\11\01\%12.12s
+
+;;TimeStopped
+\11\01\%12.12s
+
+;;TimeOfDay
+\11\01\=0%12.12s
+
+;;TimeArmed
+\11\01\=0%12.12s
+
+;;TimePaused
+\11\01\=0%12.12s
