@@ -1,6 +1,5 @@
 services:
   lynx_ws_proxy:
-    container_name: primary_lynx_ws_proxy
     image: ghcr.io/mxc42/lynx_to_websocket_proxy:main
     restart: unless-stopped
     ports:
