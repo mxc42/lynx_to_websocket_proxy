@@ -117,7 +117,6 @@ udpClock.on("error", (err) => {
 udpClock.on("message", (msg, rinfo) => {
     try {
         const parsed = new clockModel(msg.toString('ascii').trim());
-        console.log(parsed);
 
         // Broadcast incoming UDP packet to all connected WebSocket clients
         for (const client of wssClock.clients) {
