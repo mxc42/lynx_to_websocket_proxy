@@ -11,7 +11,8 @@ export class ResultModel {
 
     static fromLynxBuffer(buffer: Buffer) {
         // 1,2,758,Sam Killin,Purdue,4:01.45 ;
-        console.log(buffer.toString('ascii');
+        console.log(buffer.toString('ascii'));
+
         let i = 0;
         return new ResultModel(
             buffer.subarray(i, i = buffer.indexOf(44)).toString('ascii'),
