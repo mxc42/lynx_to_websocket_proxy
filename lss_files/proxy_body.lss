@@ -1,4 +1,5 @@
 ; For use with a `track_scoreboard_proxy` server.
+; https://github.com/mxc42/lynx_to_websocket_proxy
 ; The server proxies Lynx UDP --> websocket JSON
 
 ;;ResultsHeader
