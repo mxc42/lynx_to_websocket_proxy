@@ -48,7 +48,7 @@ function parseMessage(msg: Buffer): EventModel {
     res.dist = msg.subarray(++i, i = msg.indexOf(59, i)).toString('ascii'); // 59 is ';'
 
     while (i < msg.length) {
-        const tmp = ResultModel.fromLynxBuffer(msg.subarray(++i, i = msg.indexOf(59, i) + 1));
+        const tmp = ResultModel.fromLynxBuffer(msg.subarray(++i, i = msg.indexOf(59, i)));
         if (i < 0) {
             break;
         }
