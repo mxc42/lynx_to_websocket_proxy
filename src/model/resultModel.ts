@@ -21,7 +21,7 @@ export class ResultModel {
             buffer.subarray(++i, i = buffer.indexOf(44, i)).toString('ascii'),
             buffer.subarray(++i, i = buffer.indexOf(44, i)).toString('ascii'),
             buffer.subarray(++i, i = buffer.indexOf(44, i)).toString('ascii').trimEnd(),
-            buffer.subarray(++i, i = buffer.indexOf(59, i) + 1).toString('ascii'),
+            buffer.subarray(++i).toString('ascii'),
         );
     }
 }
