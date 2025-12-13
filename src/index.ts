@@ -2,7 +2,7 @@ import dgram from "node:dgram";
 import { WebSocketServer, WebSocket } from "ws";
 import { EventModel, HeaderModel, TrailerModel } from "./model/eventModel";
 import { ResultModel } from "./model/resultModel";
-import { clockModel } from "./model/clockModel";
+import { ClockModel } from "./model/clockModel";
 
 // Get an env var, exit with message if not present
 function getRequiredEnvVar(envVar: string): number {
@@ -27,6 +27,9 @@ console.log(`Lynx Body Listen: ${UDP_BODY_PORT}`);
 console.log(`Lynx Clock Listen: ${UDP_CLOCK_PORT}`);
 console.log(`WS Body Port:  ${WS_BODY_PORT}`);
 console.log(`WS Clock Port:  ${WS_CLOCK_PORT}`);
+
+let lastBody: EventModel;
+let lastClock: ClockModel;
 
 /**
  * Parse a body buffer from Lynx, returning an EventModel
@@ -89,6 +92,8 @@ udpBody.on("message", (msg, rinfo) => {
             const parsed = parseMessage(rxMessageBuffer);
             console.log('Parsed message:', parsed);
 
+            lastBody = parsed;
+
             // Broadcast incoming UDP packet to all connected WebSocket clients
             for (const client of wssBody.clients) {
                 if (client.readyState === WebSocket.OPEN) {
@@ -116,7 +121,13 @@ udpClock.on("error", (err) => {
 
 udpClock.on("message", (msg, rinfo) => {
     try {
-        const parsed = new clockModel(msg.toString('ascii').trim());
+        if (msg.at(0) == 0xd2) {
+            return; // don't update for time of day
+        }
+
+        const parsed = new ClockModel(msg.toString('ascii').trim());
+
+        lastClock = parsed;
 
         // Broadcast incoming UDP packet to all connected WebSocket clients
         for (const client of wssClock.clients) {
@@ -133,22 +144,28 @@ udpClock.on("message", (msg, rinfo) => {
 
 udpClock.bind(UDP_CLOCK_PORT);
 
-// --- WebSocket Server ---
+// --- WebSocket Body Server ---
 const wssBody = new WebSocketServer({ port: WS_BODY_PORT });
 
 wssBody.on("connection", (ws, req) => {
     console.log(`Body client connected: ${req.socket.remoteAddress}`);
+    if (lastBody != undefined) {
+        ws.send(JSON.stringify(lastBody));
+    }
 
     ws.on("close", () => {
         console.log("Body client disconnected");
     });
 });
 
-// --- WebSocket Server ---
+// --- WebSocket Clock Server ---
 const wssClock = new WebSocketServer({ port: WS_CLOCK_PORT });
 
 wssClock.on("connection", (ws, req) => {
     console.log(`Clock client connected: ${req.socket.remoteAddress}`);
+    if (lastClock != undefined) {
+        ws.send(JSON.stringify(lastClock));
+    }
 
     ws.on("close", () => {
         console.log("Clock client disconnected");
